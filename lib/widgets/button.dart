@@ -9,15 +9,18 @@ class Button extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ElevatedButton(
+    return Container(
+      decoration: const BoxDecoration(
+          color: Colors.indigo,
+          borderRadius: BorderRadius.all(Radius.circular(5))),
+      child: MaterialButton(
         onPressed: () => callback(value),
         child: Text(
           value,
-          style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 20, fontWeight: FontWeight.bold, color: Colors.white),
         ),
-        style: ElevatedButton.styleFrom(
-          fixedSize: Size(MediaQuery.of(context).size.width * .065,
-              MediaQuery.of(context).size.height * .075),
-        ));
+      ),
+    );
   }
 }

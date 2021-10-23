@@ -1,5 +1,5 @@
+import 'package:calculator/widgets/animated_button.dart';
 import 'package:flutter/material.dart';
-
 import 'button.dart';
 
 class Calculator extends StatefulWidget {
@@ -16,6 +16,12 @@ class _CalculatorState extends State<Calculator> {
   double secondNum = 0.0;
   String operand = '';
 
+  double opacityLevel = 0.0;
+
+  void _changeOpacity() {
+    setState(() => opacityLevel = opacityLevel == 0 ? 1.0 : 0.0);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Center(
@@ -31,24 +37,34 @@ class _CalculatorState extends State<Calculator> {
                 height: MediaQuery.of(context).size.height * .18,
                 child: Padding(
                   padding: const EdgeInsets.all(12),
-                  child: Text(
-                    expression,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.bold, fontSize: 50),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        expression,
+                        style: const TextStyle(
+                            fontWeight: FontWeight.bold, fontSize: 50),
+                      ),
+                      AnimatedOpacity(
+                        opacity: opacityLevel,
+                        duration: const Duration(seconds: 3),
+                        child: Text(
+                          result,
+                          style: const TextStyle(
+                              fontSize: 25, fontWeight: FontWeight.w300),
+                        ),
+                      ),
+                    ],
                   ),
                 ),
                 alignment: Alignment.centerRight,
               ),
             ),
             const SizedBox(height: 20),
-            Row(
-              children: [
-                Expanded(
-                  child: Button(value: '=', callback: numClick),
-                  flex: 3,
-                ),
-              ],
-            ),
+            Container(
+                child: Button(value: '=', callback: equals),
+                height: MediaQuery.of(context).size.height * .08,
+                width: MediaQuery.of(context).size.width * .9),
             const SizedBox(height: 5),
             Container(
               alignment: Alignment.center,
@@ -71,7 +87,7 @@ class _CalculatorState extends State<Calculator> {
                   Button(value: '2', callback: numClick),
                   Button(value: '3', callback: numClick),
                   Button(value: '/', callback: numClick),
-                  Button(value: 'C', callback: numClick),
+                  AnimatedButton(value: 'C', callback: numClick),
                   Button(value: '0', callback: numClick),
                   Button(value: '.', callback: numClick),
                   Button(value: '*', callback: numClick),
@@ -82,6 +98,11 @@ class _CalculatorState extends State<Calculator> {
         ),
       ),
     );
+  }
+
+  void equals(String value) {
+    numClick(value);
+    _changeOpacity();
   }
 
   void numClick(String value) {

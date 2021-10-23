@@ -10,6 +10,7 @@ class MainScreen extends StatelessWidget {
     return Scaffold(
       backgroundColor: Colors.yellow[100],
       appBar: AppBar(
+        backgroundColor: Colors.indigo,
         title: const Text(
           'Calculator',
           style: TextStyle(fontWeight: FontWeight.bold, fontSize: 30),
